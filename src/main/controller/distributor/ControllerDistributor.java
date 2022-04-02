@@ -6,7 +6,6 @@ import java.util.List;
 import main.controller.Controller;
 import main.controller.InputMenuController;
 import main.controller.MainMenuController;
-import main.controller.QuitController;
 import main.controller.SearchController;
 import main.model.Result;
 
@@ -26,7 +25,7 @@ public class ControllerDistributor {
 	}
 
 	public void doAction() {
-		while (controllerIndex != QuitController.class) {
+		while (controllerIndex != null) {
 			controllerIndex = getController().process(result);
 		}
 	}

@@ -22,7 +22,7 @@ public class InputMenuController extends Controller<InputMenuFile> {
 				return doActionInputString(result);
 			case QUIT:
 			default:
-				return QuitController.class;
+				return null;
 		}
 	}
 

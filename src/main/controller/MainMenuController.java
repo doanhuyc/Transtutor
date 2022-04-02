@@ -21,7 +21,7 @@ public class MainMenuController extends Controller<MainMenu> {
 				return InputMenuController.class;
 			case QUIT:
 			default:
-				return QuitController.class;
+				return null;
 		}
 	}
 

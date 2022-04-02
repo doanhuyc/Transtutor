@@ -19,9 +19,9 @@ public interface Menu {
 		return enumType.getEnumConstants();
 	}
 
-	abstract int getOrdinal();
+	int getOrdinal();
 
-	abstract String getDescription();
+	String getDescription();
 
 	default String getDescriptionToPrint() {
 		return getOrdinal() + ": " + getDescription();

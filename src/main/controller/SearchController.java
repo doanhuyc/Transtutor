@@ -16,7 +16,7 @@ public class SearchController extends Controller<SearchMenu> {
 				return MainMenuController.class;
 			case QUIT:
 			default:
-				return QuitController.class;
+				return null;
 		}
 		return null;
 	}
