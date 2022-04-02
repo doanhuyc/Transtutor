@@ -24,6 +24,8 @@ public class SortController extends Controller<SortMenu> {
 				return printList(inventoryService.sortByQuantity());
 			case BY_PRICE:
 				return printList(inventoryService.sortByPrice());
+			case BY_STATUS:
+				return printList(inventoryService.sortByStatus());
 			case BACK:
 				return MainMenuController.class;
 			case QUIT:

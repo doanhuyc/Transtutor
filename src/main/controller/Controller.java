@@ -9,18 +9,24 @@ public abstract class Controller<M extends Menu> {
 	private static final String EMPTY = "******Empty*******";
 
 	public Class<? extends Controller> process() {
-		for (M menu : getMenus()) {
-			log(menu.getDescriptionToPrint());
-		}
+		try {
+			for (M menu : getMenus()) {
+				log(menu.getDescriptionToPrint());
+			}
 
-		String choice = scanUserInput();
+			String choice = scanUserInput();
 
-		M menu = Menu.get(getClassMenu(), choice);
-		if (menu == null) {
-			log("Choice is invalid");
+			M menu = Menu.get(getClassMenu(), choice);
+			if (menu == null) {
+				log("Choice is invalid");
+				return getClass();
+			}
+			return doAction(menu);
+		} catch (Exception e) {
+			log("Unhandled exception");
+			e.printStackTrace();
 			return getClass();
 		}
-		return doAction(menu);
 	}
 
 	abstract Class<? extends Controller> doAction(M menu);

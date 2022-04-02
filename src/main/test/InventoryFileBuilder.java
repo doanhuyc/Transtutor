@@ -1,4 +1,4 @@
-package main.service;
+package main.test;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -6,17 +6,16 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Random;
 
-public class InventoryFileBuilderService implements Service {
-	private static final String PATH = "src/inventoryFile.txt";
+public class InventoryFileBuilder {
 	private static final String ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 	private static final String NUMERIC = "0123456789";
 	private static final String ALPHA_NUMERIC = NUMERIC + ALPHA;
 	private static final String SYMBOL = "!@$%^&*()_";
-	private final Random random = new Random();
+	private static final Random random = new Random();
 
-	public void createFile() {
+	public static void createFile(String path) {
 		try {
-			FileWriter myWriter = new FileWriter(PATH);
+			FileWriter myWriter = new FileWriter(path);
 
 			createSomeRedundantItems(myWriter);
 
@@ -35,7 +34,7 @@ public class InventoryFileBuilderService implements Service {
 		}
 	}
 
-	private void createSomeRedundantItems(FileWriter myWriter) throws IOException {
+	private static void createSomeRedundantItems(FileWriter myWriter) throws IOException {
 		String randomRecord = createRandomRecord(true);
 
 		for (int i = 0; i < 50; i++) {
@@ -44,25 +43,25 @@ public class InventoryFileBuilderService implements Service {
 		}
 	}
 
-	private String createRandomRecord(boolean valid) {
+	private static String createRandomRecord(boolean valid) {
 		return randomIdName(valid) + " " + randomQuantity(valid) + " " + randomPrice(valid);
 	}
 
-	private String randomQuantity(boolean valid) {
+	private static String randomQuantity(boolean valid) {
 		if (valid) {
 			return String.valueOf(generateRandomIntegerFromRange(0, 100));
 		}
 		return String.valueOf(generateRandomIntegerFromRange(-100, -1));
 	}
 
-	private String randomPrice(boolean valid) {
+	private static String randomPrice(boolean valid) {
 		if (valid) {
 			return String.valueOf(generateRandomBigDecimalFromRange(BigDecimal.ZERO, new BigDecimal(100)));
 		}
 		return String.valueOf(generateRandomBigDecimalFromRange(new BigDecimal(-100), new BigDecimal(-1)));
 	}
 
-	private String randomIdName(boolean valid) {
+	private static String randomIdName(boolean valid) {
 		if (valid) {
 			return randomId(true) + randomName(true);
 		}
@@ -75,30 +74,30 @@ public class InventoryFileBuilderService implements Service {
 		return randomId(false) + randomName(false);
 	}
 
-	private String randomId(boolean valid) {
+	private static String randomId(boolean valid) {
 		if (valid) {
 			return randomString(5, ALPHA_NUMERIC);
 		}
 		return randomString(4, ALPHA_NUMERIC) + randomString(1, SYMBOL);
 	}
 
-	private String randomName(boolean valid) {
+	private static String randomName(boolean valid) {
 		if (valid) {
 			return randomString(10, ALPHA);
 		}
 		return randomString(4, ALPHA) + randomString(1, SYMBOL) + randomString(3, NUMERIC);
 	}
 
-	private BigDecimal generateRandomBigDecimalFromRange(BigDecimal min, BigDecimal max) {
+	private static BigDecimal generateRandomBigDecimalFromRange(BigDecimal min, BigDecimal max) {
 		BigDecimal randomBigDecimal = min.add(new BigDecimal(Math.random()).multiply(max.subtract(min)));
 		return randomBigDecimal.setScale(2, RoundingMode.HALF_UP);
 	}
 
-	private int generateRandomIntegerFromRange(int min, int max) {
+	private static int generateRandomIntegerFromRange(int min, int max) {
 		return (int) ((Math.random() * (max - min)) + min);
 	}
 
-	private String randomString(int len, String typeString) {
+	private static String randomString(int len, String typeString) {
 		StringBuilder sb = new StringBuilder(len);
 		for (int i = 0; i < len; i++) {
 			sb.append(typeString.charAt(generateRandomIntegerFromRange(0, typeString.length() - 1)));

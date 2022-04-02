@@ -91,6 +91,10 @@ public class InventoryService implements Service {
 		return sort(repository.findAllRecords(), Comparator.comparing(ValidRecord::getPrice));
 	}
 
+	public List<ValidRecord> sortByStatus() {
+		return sort(repository.findAllRecords(), Comparator.comparingInt(o -> o.getStatus().ordinal()));
+	}
+
 	private List<ValidRecord> sort(List<ValidRecord> records, Comparator<ValidRecord> comparator) {
 		ValidRecord[] arr = records.toArray(new ValidRecord[0]);
 		int n = arr.length;

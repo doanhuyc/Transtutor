@@ -3,9 +3,9 @@ package main.gui;
 public interface Menu {
 	static <E extends Menu> E get(Class<E> enumType, String input) {
 		try {
-			int ordinal = Integer.parseInt(input);
+			int ordinal = Integer.parseInt(input.trim());
 			for (E menu : enumType.getEnumConstants()) {
-				if (menu.getOrdinal() == ordinal) {
+				if (menu.getOrdinal() == (ordinal - 1)) {
 					return menu;
 				}
 			}
@@ -24,6 +24,6 @@ public interface Menu {
 	String getDescription();
 
 	default String getDescriptionToPrint() {
-		return getOrdinal() + ": " + getDescription();
+		return (getOrdinal() + 1) + ": " + getDescription();
 	}
 }

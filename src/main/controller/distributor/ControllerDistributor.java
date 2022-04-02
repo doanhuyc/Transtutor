@@ -10,8 +10,8 @@ import main.controller.MainMenuController;
 import main.controller.PrintByStatusController;
 import main.controller.RecordMenuController;
 import main.controller.SearchController;
+import main.controller.SortController;
 import main.service.FileReaderService;
-import main.service.InventoryFileBuilderService;
 import main.service.InventoryService;
 import main.service.Service;
 import main.service.dao.Repository;
@@ -32,16 +32,9 @@ public class ControllerDistributor {
 	}
 
 	public void doAction() {
-		createFile();
-
 		while (controllerIndex != null) {
 			controllerIndex = getController().process();
 		}
-	}
-
-	private void createFile() {
-		InventoryFileBuilderService inventoryFileBuilderService = getService(InventoryFileBuilderService.class);
-		inventoryFileBuilderService.createFile();
 	}
 
 	private Controller getController() {
@@ -64,9 +57,7 @@ public class ControllerDistributor {
 
 	private void initServices() {
 		registryService.add(new FileReaderService());
-		registryService.add(new InventoryFileBuilderService());
 		registryService.add(new InventoryService(new Repository()));
-		registryService.add(new InventoryFileBuilderService());
 	}
 
 	private void initController() {
@@ -80,5 +71,6 @@ public class ControllerDistributor {
 		registryController.add(new ChangeStatusController(inventoryService));
 		registryController.add(new SearchController(inventoryService));
 		registryController.add(new PrintByStatusController(inventoryService));
+		registryController.add(new SortController(inventoryService));
 	}
 }

@@ -5,6 +5,7 @@ public enum SortMenu implements Menu {
 	BY_NAME("Sort by name"),
 	BY_QUANTITY("Sort by quantity"),
 	BY_PRICE("Sort by price"),
+	BY_STATUS("Sort by status"),
 	BACK("Back"),
 	QUIT("Quit");
 

@@ -3,7 +3,6 @@ package main.service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
-import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -23,14 +22,6 @@ public class FileReaderService implements Service {
 	private static final String ALPHA_NUMERIC_REGEX = "^[a-zA-Z0-9]*$";
 	private static final String ALPHA_REGEX = "^[a-zA-Z]*$";
 
-	/**
-	 *
-	 * @param str
-	 * @return List of lines separated by Tab in the file
-	 * @throws InvalidPathException if the path is invalid
-	 * @throws IOException
-	 *
-	 */
 	public List<Record> readFileFromPath(String str) throws IOException {
 		Path path = Paths.get(str);
 
@@ -52,11 +43,6 @@ public class FileReaderService implements Service {
 		return recordList;
 	}
 
-	/**
-	 *
-	 * @param str
-	 * @return ValidRecord if the String is valid else return null
-	 */
 	private Record parse(String str) {
 		BadRecord badRecord = new BadRecord();
 		badRecord.setRecord(str);
