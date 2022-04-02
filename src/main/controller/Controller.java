@@ -44,6 +44,7 @@ public abstract class Controller<M extends Menu> {
 			for (Object object : objectList) {
 				log(object.toString());
 			}
+			log("There are " + objectList.size() + " item(s)");
 		}
 	}
 }
