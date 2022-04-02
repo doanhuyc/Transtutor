@@ -7,13 +7,11 @@ import main.gui.Menu;
 import main.model.Result;
 
 public abstract class Controller<M extends Menu> {
-	public final static String END = "END_PROGRAM";
-
 	private static final String EMPTY = "******Empty*******";
 
-	public String process(Result result) {
+	public Class<? extends Controller> process(Result result) {
 		for (M menu : Menu.values(getClassMenu())) {
-			log(menu.getOrdinal() + ": " + menu.getDescription());
+			log(menu.getDescriptionToPrint());
 		}
 
 		String choice = scanUserInput();
@@ -21,20 +19,14 @@ public abstract class Controller<M extends Menu> {
 		M menu = Menu.get(getClassMenu(), choice);
 		if (menu == null) {
 			log("Choice is invalid");
-			return getControllerIndex();
+			return getClass();
 		}
-		String index = doAction(menu, result);
-		if (index == null) {
-			throw new RuntimeException("Unhandled error");
-		}
-		return index;
+		return doAction(menu, result);
 	}
 
-	abstract String doAction(M menu, Result result);
+	abstract Class<? extends Controller> doAction(M menu, Result result);
 
 	abstract Class<M> getClassMenu();
-
-	abstract String getControllerIndex();
 
 	void log(String message) {
 		System.out.println(message);
@@ -45,7 +37,7 @@ public abstract class Controller<M extends Menu> {
 		return scan.nextLine();
 	}
 
-	<E extends Object> void logListObject(List<E> objectList) {
+	<E> void logListObject(List<E> objectList) {
 		if (objectList.isEmpty()) {
 			log(EMPTY);
 		} else {

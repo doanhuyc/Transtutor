@@ -10,21 +10,20 @@ import main.service.FileReaderService;
 import main.service.ImportService;
 
 public class InputMenuController extends Controller<InputMenuFile> {
-	public static final String INDEX = "MENU_INPUT";
 	private final FileReaderService fileReaderService = new FileReaderService();
 	private final ImportService importService = new ImportService();
 
 	@Override
-	String doAction(InputMenuFile menu, Result result) {
+	Class<? extends Controller> doAction(InputMenuFile menu, Result result) {
 		switch (menu) {
 			case INPUT_PATH:
 				return doActionInputPath(result);
 			case INPUT_STRING:
 				return doActionInputString(result);
 			case QUIT:
-				return END;
+			default:
+				return QuitController.class;
 		}
-		return null;
 	}
 
 	@Override
@@ -32,22 +31,17 @@ public class InputMenuController extends Controller<InputMenuFile> {
 		return InputMenuFile.class;
 	}
 
-	@Override
-	String getControllerIndex() {
-		return INDEX;
-	}
-
-	private String doActionInputString(Result result) {
+	private Class<? extends Controller> doActionInputString(Result result) {
 		log("String to input");
 		String string = scanUserInput();
 
 		List<String> strings = fileReaderService.readString(string);
 		updateResult(result, strings);
 
-		return MainMenuController.INDEX;
+		return MainMenuController.class;
 	}
 
-	private String doActionInputPath(Result result) {
+	private Class<? extends Controller> doActionInputPath(Result result) {
 		log("File path to input");
 		String path = scanUserInput();
 
@@ -55,13 +49,13 @@ public class InputMenuController extends Controller<InputMenuFile> {
 			List<String> strings = fileReaderService.readFileFromPath(path);
 			updateResult(result, strings);
 
-			return MainMenuController.INDEX;
+			return MainMenuController.class;
 		} catch (InvalidPathException e) {
 			log("Invalid path");
-			return INDEX;
+			return getClass();
 		} catch (IOException e) {
-			log("File does'nt existed");
-			return INDEX;
+			log("File doesn't existed");
+			return getClass();
 		}
 	}
 

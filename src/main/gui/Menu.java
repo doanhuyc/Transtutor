@@ -22,4 +22,8 @@ public interface Menu {
 	abstract int getOrdinal();
 
 	abstract String getDescription();
+
+	default String getDescriptionToPrint() {
+		return getOrdinal() + ": " + getDescription();
+	}
 }

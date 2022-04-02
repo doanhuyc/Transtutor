@@ -7,24 +7,22 @@ import main.model.Record;
 import main.model.Result;
 
 public class MainMenuController extends Controller<MainMenu> {
-	public static final String INDEX = "MAIN_MENU";
-
 	@Override
-	String doAction(MainMenu menu, Result result) {
+	Class<? extends Controller> doAction(MainMenu menu, Result result) {
 		switch (menu) {
 			case PRINT_ALL_VALID:
 				return doPrintAllValid(result.getRecords());
 			case PRINT_ALL_INVALID:
 				return doPrintAllInValid(result.getBadRecords());
 			case SEARCH_BY_ID_NAME:
-				return SearchController.INDEX;
+				return SearchController.class;
 			case PRINT_REPORT:
 			case BACK:
-				return InputMenuController.INDEX;
+				return InputMenuController.class;
 			case QUIT:
-				return END;
+			default:
+				return QuitController.class;
 		}
-		return null;
 	}
 
 	@Override
@@ -32,18 +30,13 @@ public class MainMenuController extends Controller<MainMenu> {
 		return MainMenu.class;
 	}
 
-	@Override
-	String getControllerIndex() {
-		return INDEX;
-	}
-
-	private String doPrintAllValid(List<Record> recordList) {
+	private Class<? extends Controller> doPrintAllValid(List<Record> recordList) {
 		logListObject(recordList);
-		return INDEX;
+		return getClass();
 	}
 
-	private String doPrintAllInValid(List<String> badRecord) {
+	private Class<? extends Controller> doPrintAllInValid(List<String> badRecord) {
 		logListObject(badRecord);
-		return INDEX;
+		return getClass();
 	}
 }

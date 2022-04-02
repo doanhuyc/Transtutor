@@ -1,39 +1,42 @@
 package main.controller.distributor;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 import main.controller.Controller;
 import main.controller.InputMenuController;
 import main.controller.MainMenuController;
+import main.controller.QuitController;
 import main.controller.SearchController;
 import main.model.Result;
 
 public class ControllerDistributor {
 
-	private final Map<String, Controller> registryController = new ConcurrentHashMap<>();
-	private String controllerIndex;
+	private final List<Controller> registryController = new ArrayList<>();
+	private Class controllerIndex;
 	private Result result;
 
 	public ControllerDistributor() {
-		this.controllerIndex = InputMenuController.INDEX;
+		this.controllerIndex = InputMenuController.class;
 		this.result = new Result();
 
-		registryController.put(InputMenuController.INDEX, new InputMenuController());
-		registryController.put(MainMenuController.INDEX, new MainMenuController());
-		registryController.put(SearchController.INDEX, new SearchController());
+		registryController.add(new InputMenuController());
+		registryController.add(new MainMenuController());
+		registryController.add(new SearchController());
 	}
 
 	public void doAction() {
-		while (!controllerIndex.equals(Controller.END)) {
-
-			Controller controller = registryController.get(controllerIndex);
-
-			if (controller == null) {
-				throw new RuntimeException("Unregistered controller " + controllerIndex);
-			}
-
-			controllerIndex = controller.process(result);
+		while (controllerIndex != QuitController.class) {
+			controllerIndex = getController().process(result);
 		}
+	}
+
+	private Controller getController() {
+		for (Controller controller : registryController) {
+			if (controller.getClass() == controllerIndex) {
+				return controller;
+			}
+		}
+		throw new RuntimeException("Unregistered controller " + controllerIndex);
 	}
 }
