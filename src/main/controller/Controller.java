@@ -4,13 +4,12 @@ import java.util.List;
 import java.util.Scanner;
 
 import main.gui.Menu;
-import main.model.Result;
 
 public abstract class Controller<M extends Menu> {
 	private static final String EMPTY = "******Empty*******";
 
-	public Class<? extends Controller> process(Result result) {
-		for (M menu : Menu.values(getClassMenu())) {
+	public Class<? extends Controller> process() {
+		for (M menu : getMenus()) {
 			log(menu.getDescriptionToPrint());
 		}
 
@@ -21,12 +20,16 @@ public abstract class Controller<M extends Menu> {
 			log("Choice is invalid");
 			return getClass();
 		}
-		return doAction(menu, result);
+		return doAction(menu);
 	}
 
-	abstract Class<? extends Controller> doAction(M menu, Result result);
+	abstract Class<? extends Controller> doAction(M menu);
 
 	abstract Class<M> getClassMenu();
+
+	M[] getMenus() {
+		return Menu.values(getClassMenu());
+	}
 
 	void log(String message) {
 		System.out.println(message);

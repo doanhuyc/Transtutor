@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Random;
 
-public class InventoryFileBuilderService {
+public class InventoryFileBuilderService implements Service {
 	private static final String PATH = "src/inventoryFile.txt";
 	private static final String ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 	private static final String NUMERIC = "0123456789";
@@ -17,6 +17,8 @@ public class InventoryFileBuilderService {
 	public void createFile() {
 		try {
 			FileWriter myWriter = new FileWriter(PATH);
+
+			createSomeRedundantItems(myWriter);
 
 			for (int i = 0; i < 100; i++) {
 				myWriter.write(createRandomRecord(true));
@@ -30,6 +32,15 @@ public class InventoryFileBuilderService {
 			myWriter.close();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+
+	private void createSomeRedundantItems(FileWriter myWriter) throws IOException {
+		String randomRecord = createRandomRecord(true);
+
+		for (int i = 0; i < 50; i++) {
+			myWriter.write(randomRecord);
+			myWriter.write("\t");
 		}
 	}
 
